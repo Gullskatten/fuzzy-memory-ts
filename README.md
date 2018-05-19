@@ -1,7 +1,29 @@
-# Awesome Project Build with TypeORM
-        
-Steps to run this project:
+# :sheep: Fuzzy Memory
 
-1. Run `npm i` command
-2. Setup database settings inside `ormconfig.json` file
-3. Run `npm start` command
+## :blue_book: About
+This application handles User Management (Login, Logout, Authentication, Verification..) using GraphQL.
+
+
+### :exclamation: Requirements
+* A running PostgreSQL-server.
+* Node / npm.
+
+### :runner: Run this project:
+1. Open a console and run `npm i` (or use `yarn`). 
+
+2. Configure the database parameters in [`ormconfig.json`](./ormconfig.json) file.
+
+_The default configuration specifies the following:_
+* username: `postgres` - (Database-user username)
+* password: `welcome1` - (Database-user password)
+* database: `fuzzymemory` - (Name of an existing database to connect to)
+* host: `localhost` - (Address where PostgreSQL is running)
+* port: `5432` - (Port where PostgreSQL is running)
+
+:tshirt: This lets TypeORM connect to the database, and perform database handling (create tables, entity handling).
+
+3. Run `npm start`.
+
+### :eyes: Testing
+
+Simply run `npm test`.
