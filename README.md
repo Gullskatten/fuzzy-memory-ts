@@ -1,6 +1,6 @@
-# :sheep: Fuzzy Memory
+# :chicken: Fuzzy Memory
 
-## :blue_book: About
+## About
 This application handles User Management (Login, Logout, Authentication, Verification..) using GraphQL.
 
 
@@ -8,7 +8,7 @@ This application handles User Management (Login, Logout, Authentication, Verific
 * A running PostgreSQL-server.
 * Node / npm.
 
-### :runner: Run this project:
+### :runner: Run this project
 1. Open a console and run `npm i` (or use `yarn`). 
 
 2. Configure the database parameters in [`ormconfig.json`](./ormconfig.json) file.
@@ -20,10 +20,10 @@ _The default configuration specifies the following:_
 * host: `localhost` - (Address where PostgreSQL is running)
 * port: `5432` - (Port where PostgreSQL is running)
 
-:tshirt: This lets TypeORM connect to the database, and perform database handling (create tables, entity handling).
+This lets TypeORM connect to the database, and perform database handling (create tables, entity handling).
 
 3. Run `npm start`.
 
-### :eyes: Testing
-
-Simply run `npm test`.
+### :tshirt: Testing
+Start the test-server using `npm test-server`.
+Initialize the tests using `npm test` (or `yarn test`).
