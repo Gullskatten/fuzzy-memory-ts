@@ -8,14 +8,7 @@ import {
   invalidEmail,
   passwordNotLongEnough
 } from "./errorMessages";
-
-let getHost = () => "";
-
-beforeAll(async () => {
-  const app = await startServer();
-  const { port } = app.address();
-  getHost = () => `http://127.0.0.1:${port}`;
-});
+import { createTypeormConn } from "../../utils/createTypeormConn";
 
 const mutation = (email: string, password: string) => `
 mutation {
@@ -26,13 +19,19 @@ mutation {
 }
 `;
 
+beforeAll(async () => {
+  await createTypeormConn();
+});
+
+
+
 describe("User registration", async () => {
   const aPassword = "jalksdf";
 
   test("Should throw an error on duplicate email registration.", async () => {
     const email = "tom@bob.com";
 
-    const response = await request(getHost(), mutation(email, aPassword));
+    const response = await request(process.env.TEST_HOST as string, mutation(email, aPassword));
     expect(response).toEqual({ register: null });
     const users = await User.find({ where: { email } });
     expect(users).toHaveLength(1);
@@ -41,7 +40,7 @@ describe("User registration", async () => {
     expect(user.password).not.toEqual(aPassword);
 
     const secondResponse: any = await request(
-      getHost(),
+      process.env.TEST_HOST as string,
       mutation(email, aPassword)
     );
     expect(secondResponse.register).toHaveLength(1);
@@ -54,7 +53,7 @@ describe("User registration", async () => {
   test("Should throw validation errors when e-mail is too short and invalid format.", async () => {
     const invalidAndShortEmail = "1@";
     const response: any = await request(
-      getHost(),
+      process.env.TEST_HOST as string,
       mutation(invalidAndShortEmail, aPassword)
     );
     expect(response.register).toHaveLength(2);
@@ -71,7 +70,7 @@ describe("User registration", async () => {
   });
   test("Should throw an error if password is too short.", async () => {
     const response: any = await request(
-      getHost(),
+      process.env.TEST_HOST as string,
       mutation("espen@espen.com", "e")
     );
 

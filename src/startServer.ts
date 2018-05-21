@@ -31,7 +31,7 @@ export const startServer = async () => {
     })
   });
 
-  server.express.get("/confim/:id", async (req, res, next) => {
+  server.express.get("/confim/:id", async (req, res) => {
     const { id } = req.params;
 
     const userId = await redis.get(id);
