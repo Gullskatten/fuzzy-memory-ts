@@ -35,13 +35,12 @@ export const startServer = async () => {
     const { id } = req.params;
 
     const userId = await redis.get(id);
-    if(userId) {
+    if (userId) {
       await User.update({ id: userId }, { confirmed: true });
       res.send("OK");
     } else {
       res.send("Not found.");
     }
-
   });
 
   await createTypeormConn();
