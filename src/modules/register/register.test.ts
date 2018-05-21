@@ -1,14 +1,13 @@
 import { request } from "graphql-request";
-
+import { createTypeormConn } from "../../utils/createTypeormConn";
 import { User } from "../../entity/User";
-import { startServer } from "../../startServer";
 import {
   duplicateEmail,
   emailNotLongEnough,
   invalidEmail,
   passwordNotLongEnough
 } from "./errorMessages";
-import { createTypeormConn } from "../../utils/createTypeormConn";
+
 
 const mutation = (email: string, password: string) => `
 mutation {
