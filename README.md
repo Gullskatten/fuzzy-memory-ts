@@ -9,9 +9,9 @@ This application handles User Management (Login, Logout, Authentication, Verific
 * Node / npm.
 
 ### :runner: Run this project
-1. Open a console and run `npm i` (or use `yarn`). 
+0. Open a console and run `npm i` (or use `yarn`). 
 
-2. Configure the database parameters in [`ormconfig.json`](./ormconfig.json) file.
+0. Configure the database parameters in [`ormconfig.json`](./ormconfig.json) file.
 
 _The default configuration specifies the following:_
 * username: `postgres` - (Database-user username)
@@ -22,8 +22,11 @@ _The default configuration specifies the following:_
 
 This lets TypeORM connect to the database, and perform database handling (create tables, entity handling).
 
-3. Run `npm start`.
+0. Run `npm start`.
 
 ### :tshirt: Testing
-Start the test-server using `npm test-server`.
-Initialize the tests using `npm test` (or `yarn test`).
+Running tests requires a separate "test database" to run before initializing the tests.
+
+The database name should be `fuzzymemory-test` (as described in the [`ormconfig.json`](./ormconfig.json) file).
+
+Run the tests using `npm test` (or `yarn test`).
