@@ -26,59 +26,59 @@ mutation {
 }
 `;
 
-test("Register user", async () => {
-  const email = "tom@bob.com";
-  const password = "jalksdf";
+describe("User registration", async () => {
+  const aPassword = "jalksdf";
 
-  const response = await request(getHost(), mutation(email, password));
-  expect(response).toEqual({ register: null });
-  const users = await User.find({ where: { email } });
-  expect(users).toHaveLength(1);
-  const user = users[0];
-  expect(user.email).toEqual(email);
-  expect(user.password).not.toEqual(password);
+  test("Should throw an error on duplicate email registration.", async () => {
+    const email = "tom@bob.com";
 
-  // Duplicate email should give an error.
-  const secondResponse: any = await request(
-    getHost(),
-    mutation(email, password)
-  );
-  expect(secondResponse.register).toHaveLength(1);
-  expect(secondResponse.register[0]).toEqual({
-    path: "email",
-    message: duplicateEmail
+    const response = await request(getHost(), mutation(email, aPassword));
+    expect(response).toEqual({ register: null });
+    const users = await User.find({ where: { email } });
+    expect(users).toHaveLength(1);
+    const user = users[0];
+    expect(user.email).toEqual(email);
+    expect(user.password).not.toEqual(aPassword);
+
+    const secondResponse: any = await request(
+      getHost(),
+      mutation(email, aPassword)
+    );
+    expect(secondResponse.register).toHaveLength(1);
+    expect(secondResponse.register[0]).toEqual({
+      path: "email",
+      message: duplicateEmail
+    });
   });
 
-  // Incorrect email should give an error.
-  const email2 = "1@";
-  const thirdResponse: any = await request(
-    getHost(),
-    mutation(email2, password)
-  );
-  expect(thirdResponse.register).toHaveLength(2);
-  expect(thirdResponse.register[0]).toEqual({
-    path: "email",
-    message: emailNotLongEnough
-  });
+  test("Should throw validation errors when e-mail is too short and invalid format.", async () => {
+    const invalidAndShortEmail = "1@";
+    const response: any = await request(
+      getHost(),
+      mutation(invalidAndShortEmail, aPassword)
+    );
+    expect(response.register).toHaveLength(2);
 
-  expect(thirdResponse).toEqual({
-    register: [
-      {
-        path: "email",
-        message: emailNotLongEnough
-      },
-      { path: "email", message: invalidEmail }
-    ]
+    expect(response).toEqual({
+      register: [
+        {
+          path: "email",
+          message: emailNotLongEnough
+        },
+        { path: "email", message: invalidEmail }
+      ]
+    });
   });
+  test("Should throw an error if password is too short.", async () => {
+    const response: any = await request(
+      getHost(),
+      mutation("espen@espen.com", "e")
+    );
 
-   // Too short password should give an error.
-   const fourthResponse: any = await request(
-    getHost(),
-    mutation("espen@espen.com", "e")
-  );
-  expect(fourthResponse.register).toHaveLength(1);
-  expect(fourthResponse.register[0]).toEqual({
-    path: "password",
-    message: passwordNotLongEnough
+    expect(response.register).toHaveLength(1);
+    expect(response.register[0]).toEqual({
+      path: "password",
+      message: passwordNotLongEnough
+    });
   });
 });
